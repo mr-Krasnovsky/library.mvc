@@ -37,6 +37,12 @@ public class PeopleController {
 	return "people/index";
     }
 
+    // @GetMapping()
+    // public String readers(Model model, @ModelAttribute("person") Person person) {
+    // model.addAttribute("people", personDAO.index());
+    // return "book/show/";
+    // }
+
     @GetMapping("/{person_id}")
     public String show(@PathVariable("person_id") int person_id, Model model) {
 	model.addAttribute("person", personDAO.show(person_id));

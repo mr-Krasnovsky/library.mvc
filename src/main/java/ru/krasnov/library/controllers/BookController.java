@@ -15,18 +15,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ru.krasnov.library.dao.BookDAO;
+import ru.krasnov.library.dao.PersonDAO;
 import ru.krasnov.library.models.Book;
+import ru.krasnov.library.models.Person;
 import ru.krasnov.library.util.BookValidator;
 
 @Controller
 @RequestMapping(value = "/book", produces = "text/html; charset=utf-8")
 public class BookController {
 
+    private final PersonDAO personDAO;
     private final BookDAO bookDAO;
     private final BookValidator bookValidator;
 
     @Autowired
-    public BookController(BookDAO bookDAO, BookValidator bookValidator) {
+    public BookController(BookDAO bookDAO, BookValidator bookValidator, PersonDAO personDAO) {
+	this.personDAO = personDAO;
 	this.bookDAO = bookDAO;
 	this.bookValidator = bookValidator;
     }
@@ -38,8 +42,10 @@ public class BookController {
     }
 
     @GetMapping("/{book_id}")
-    public String show(@PathVariable("book_id") int book_id, Model model) {
+    public String show(@PathVariable("book_id") int book_id, Model model, @ModelAttribute("person") Person person) {
 	model.addAttribute("book", bookDAO.show(book_id));
+	model.addAttribute("people", personDAO.index());
+
 	return "book/show";
     }
 

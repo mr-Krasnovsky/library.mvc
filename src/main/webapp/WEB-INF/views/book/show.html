@@ -5,13 +5,28 @@
     <title>Show</title>
 </head>
 <body>
-<p th:text="${book.getName()}">VALUE</p>
-<p th:text="${book.getId()}">VALUE</p>
+<a th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</a>
+<br/>
+<form th:method="PATCH" th:action="@{/book/block}">
+<label for="person">Выберите человека</label>
+<select th:object="${person}" th:field="*{id}" id="person">
+	<option th:each="person : ${people}" th:value="${person.getId()}"
+	th:text="${person.getName()}"></option>
+</select>
 
-<a th:href="@{/book/{book_id}/edit(book_id=${book.getId()})}">Edit</a>
-
-<form th:method="DELETE" th:action="@{/book/{book_id}(book_id=${book.getId()})}">
-    <input type="submit" value="Delete"/>
+<input type="submit" value="Назначить книгу" />
 </form>
+<br/>
+<form th:method="GET" th:action="@{/book/{book_id}/edit(book_id=${book.getId()})}">
+    <input type="submit" value="Редактировать"/>
+</form>
+<br/>
+<form th:method="DELETE" th:action="@{/book/{book_id}(book_id=${book.getId()})}">
+    <input type="submit" value="Удалить"/>
+</form>
+
+
+
+
 </body>
 </html>
