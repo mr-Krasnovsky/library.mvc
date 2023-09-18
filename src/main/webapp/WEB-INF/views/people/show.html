@@ -5,13 +5,25 @@
     <title>Show</title>
 </head>
 <body>
-<p th:text="${'ID: ' + person.getId()+', name: ' + person.getName()+', Age: ' + person.getAge()}">VALUE</p>
-<p th:text="${person.getId()}">VALUE</p>
+<p th:text="${person.getName()+', ' + person.getAge()}">VALUE</p>
 
-<a th:href="@{/people/{person_id}/edit(person_id=${person.getId()})}">Edit</a>
+<p th:text="${'Книги: '}"
+th:if="${not #lists.isEmpty(book)}">books
+</p>
+<p th:if="${not #lists.isEmpty(book)}"
+ th:each="book: ${book}">
+    <a th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</a>
+<p th:text="${'Человек пока не взял ни одной книги'}" 
+th:unless="${not #lists.isEmpty(book)}">no_books
+</p>
+<br/>
 
+<form th:method="GET" th:action="@{/people/{person_id}(person_id=${person.getId()})}">
+    <input type="submit" value="Редактировать"/>
+</form>
+<br/>
 <form th:method="DELETE" th:action="@{/people/{person_id}(person_id=${person.getId()})}">
-    <input type="submit" value="Delete"/>
+    <input type="submit" value="Удалить"/>
 </form>
 </body>
 </html>

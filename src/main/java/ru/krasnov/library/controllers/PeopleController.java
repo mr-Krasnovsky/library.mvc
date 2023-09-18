@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ru.krasnov.library.dao.BookDAO;
 import ru.krasnov.library.dao.PersonDAO;
+import ru.krasnov.library.models.Book;
 import ru.krasnov.library.models.Person;
 import ru.krasnov.library.util.PersonValidator;
 
@@ -23,11 +25,13 @@ import ru.krasnov.library.util.PersonValidator;
 public class PeopleController {
 
     private final PersonDAO personDAO;
+    private final BookDAO bookDAO;
     private final PersonValidator personValidator;
 
     @Autowired
-    public PeopleController(PersonDAO personDAO, PersonValidator personValidator) {
+    public PeopleController(PersonDAO personDAO, BookDAO bookDAO, PersonValidator personValidator) {
 	this.personDAO = personDAO;
+	this.bookDAO = bookDAO;
 	this.personValidator = personValidator;
     }
 
@@ -44,8 +48,9 @@ public class PeopleController {
     // }
 
     @GetMapping("/{person_id}")
-    public String show(@PathVariable("person_id") int person_id, Model model) {
+    public String show(@PathVariable("person_id") int person_id, Model model, @ModelAttribute("book") Book book) {
 	model.addAttribute("person", personDAO.show(person_id));
+	model.addAttribute("book", bookDAO.checkBook(person_id));
 	return "people/show";
     }
 

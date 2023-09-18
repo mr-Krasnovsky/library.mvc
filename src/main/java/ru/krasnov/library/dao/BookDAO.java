@@ -47,4 +47,17 @@ public class BookDAO {
     public void delete(int book_id) {
 	jdbcTemplate.update("DELETE FROM Book WHERE book_id=?", book_id);
     }
+
+    public void blockBook(int book_id, int person_id) {
+	jdbcTemplate.update("UPDATE Book SET person_id=? WHERE book_id=?", person_id, book_id);
+    }
+
+    public void unBlockBook(int book_id) {
+	jdbcTemplate.update("UPDATE Book SET person_id=NULL WHERE book_id=?", book_id);
+    }
+
+    public List<Book> checkBook(int person_id) {
+	return jdbcTemplate
+		.query("SELECT * FROM Book WHERE Book.person_id = ?", new Object[] { person_id }, new BookMapper());
+    }
 }

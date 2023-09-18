@@ -7,7 +7,22 @@
 <body>
 <a th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</a>
 <br/>
-<form th:method="PATCH" th:action="@{/book/block}">
+<p th:if="${book.getPerson_id()}">Книга сейчас у: 
+<span th:each="person : ${people}" th:if="${person.getId() == book.getPerson_id()}" 
+th:text="${person.getName()}"></span></p>
+<br/>
+<form th:if="${book.getPerson_id()}" th:method="PATCH" th:action="@{/book/{book_id}/unBlock(book_id=${book.getId()})}">
+    <input type="submit" value="Освободить книгу"/>
+</form>
+<br/>
+
+
+<p th:text="${'Эта книга сейчас свободна'}"
+th:unless="${book.getPerson_id()}">free_book</p>
+
+<form th:method="PATCH" th:action="@{/book/{book_id}/block(book_id=${book.getId()})}"
+th:unless="${book.getPerson_id()}">
+<br/>
 <label for="person">Выберите человека</label>
 <select th:object="${person}" th:field="*{id}" id="person">
 	<option th:each="person : ${people}" th:value="${person.getId()}"
@@ -16,6 +31,7 @@
 
 <input type="submit" value="Назначить книгу" />
 </form>
+
 <br/>
 <form th:method="GET" th:action="@{/book/{book_id}/edit(book_id=${book.getId()})}">
     <input type="submit" value="Редактировать"/>
@@ -24,9 +40,6 @@
 <form th:method="DELETE" th:action="@{/book/{book_id}(book_id=${book.getId()})}">
     <input type="submit" value="Удалить"/>
 </form>
-
-
-
 
 </body>
 </html>

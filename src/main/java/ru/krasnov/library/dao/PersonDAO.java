@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -24,8 +25,8 @@ public class PersonDAO {
     }
 
     public Optional<Person> show(String name) {
-	return jdbcTemplate.query("SELECT * FROM Person WHERE name=?", new Object[] { name }, new PersonMapper())
-		.stream().findAny();
+	return jdbcTemplate.query("SELECT * FROM Person WHERE name=?", new Object[] { name },
+		new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
     }
 
     public Person show(int person_id) {

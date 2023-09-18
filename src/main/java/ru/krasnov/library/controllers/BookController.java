@@ -45,7 +45,6 @@ public class BookController {
     public String show(@PathVariable("book_id") int book_id, Model model, @ModelAttribute("person") Person person) {
 	model.addAttribute("book", bookDAO.show(book_id));
 	model.addAttribute("people", personDAO.index());
-
 	return "book/show";
     }
 
@@ -83,5 +82,18 @@ public class BookController {
     public String delete(@PathVariable("book_id") int book_id) {
 	bookDAO.delete(book_id);
 	return "redirect:/book";
+    }
+
+    @PatchMapping("/{book_id}/block")
+    public String block(@ModelAttribute("person") Person person, @PathVariable("book_id") int book_id) {
+	int id = person.getId();
+	bookDAO.blockBook(book_id, id);
+	return "redirect:/people/" + id;
+    }
+
+    @PatchMapping("/{book_id}/unBlock")
+    public String unBlock(@PathVariable("book_id") int book_id) {
+	bookDAO.unBlockBook(book_id);
+	return "redirect:/book/" + book_id;
     }
 }
