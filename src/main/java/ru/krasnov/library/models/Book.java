@@ -12,10 +12,10 @@ public class Book {
     private String name;
 
     @NotEmpty(message = "Author should not be empty")
-    @Size(min = 2, max = 100, message = "Author should be between 2 and 100 characters")
+    @Size(min = 2, max = 100, message = "Author name should be between 2 and 100 characters")
     private String author;
 
-    @Min(value = 0, message = "Age should be greater than 0")
+    @Min(value = 1500, message = "Year should be greater than 1500")
     private int year;
 
     private int person_id;

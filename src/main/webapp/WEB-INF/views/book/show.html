@@ -31,6 +31,7 @@ th:unless="${book.getPerson_id()}">
 
 <input type="submit" value="Назначить книгу" />
 </form>
+<hr/>
 
 <br/>
 <form th:method="GET" th:action="@{/book/{book_id}/edit(book_id=${book.getId()})}">

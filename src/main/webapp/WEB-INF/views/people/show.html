@@ -16,6 +16,7 @@ th:if="${not #lists.isEmpty(book)}">books
 <p th:text="${'Человек пока не взял ни одной книги'}" 
 th:unless="${not #lists.isEmpty(book)}">no_books
 </p>
+<hr/>
 <br/>
 
 <form th:method="GET" th:action="@{/people/{person_id}(person_id=${person.getId()})}">
